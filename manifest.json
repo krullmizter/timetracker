@@ -5,15 +5,19 @@
   "version": "1.0",
 
   "description": "A simple time tracker extension",
-
+  "homepage_url": "https://github.com/krullmizter/timetracker",
   "icons": {
-    "48": "icons/logo-48.jpg"
+    "48": "icons/timeTracker-icon-48.png"
   },
+
+  "permissions": [
+    "activeTab"
+  ],
 
   "content_scripts": [
     {
       "matches": ["*://*.mozilla.org/*"],
-      "js": ["timetracker.js"]
+      "js": ["timeTracker.js"]
     }
   ]
 
