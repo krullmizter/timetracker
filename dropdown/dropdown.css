@@ -1,15 +1,21 @@
 html, body {
-    width: 100px;
-  }
+  width: 100px;
+  font-family: 'Lato', sans-serif;
+}
   
 .hidden {
-    display: none;
+  display: none;
 }
   
 .btn {
-    margin: 3% auto;
-    padding: 4px;
-    text-align: center;
-    font-size: 1.5em;
-    cursor: pointer;
-  }
+  margin: 3% auto;
+  padding: 4px;
+  text-align: center;
+  font-size: 1.5em;
+  cursor: pointer;
+}
+
+#timer::before {
+  content: '\f017';
+  margin-right: 5px;
+}
