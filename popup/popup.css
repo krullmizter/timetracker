@@ -1,5 +1,4 @@
-html, 
-body {
+html {
   font-family: 'Lato', sans-serif;
   font-size: 62.5%;
 }
@@ -30,11 +29,6 @@ div {
   transition: .2s;
 }
 
-#timer::before {
-  content: '\f017';
-  margin-right: 5px;
-}
-
 #start {
   background-color: #7EA956;
 }
@@ -45,21 +39,6 @@ div {
 
 #reset {
   background-color: #189EA9;
-}
-
-#start::before {
-  content: '\f144';
-  margin-right: 5px;
-}
-
-#stop::before {
-  content: '\f28d';
-  margin-right: 5px;
-}
-
-#reset::before {
-  content: '\f0e2';
-  margin-right: 5px;
 }
 
 #start:hover {
