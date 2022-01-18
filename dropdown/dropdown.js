@@ -38,11 +38,12 @@ resetBtn.addEventListener('click', () => {
 
 // Here we get the current time, that is used to display when the timer was started
 function timerStartedAt() {
-    let date = new Date();
-    let offset = date.getTimezoneOffset();
+    const date = new Date();
 
-    console.log(date + ' ' + offset);
-    displayDate.innerHTML = 'Timer started: ' + date.getHours() + ':' + date.getMinutes();
+    const hr  = String(date.getHours()).padStart(2, "0");
+    const min = String(date.getMinutes()).padStart(2, "0");
+
+    displayDate.innerHTML = 'Timer started: ' + hr + ':' + min;
 }
 
 /* 
