@@ -1,5 +1,6 @@
 // Variables from the HTML
 const timer     = document.getElementById('timer');
+const displayDate = document.getElementById('displayDate');
 const startBtn  = document.getElementById('start');
 const stopBtn   = document.getElementById('stop');
 const resetBtn  = document.getElementById('reset');
@@ -11,10 +12,13 @@ let sec = 0;
  
 let interval;
 
-/* Three even listeners for the three buttons
+/* 
+*  Three even listeners for the three buttons
 *  The startBtn event will set an interval to run each 1000ms (1sec) and run the startTimer function
+*  timerStartedAt function will also run och the btn event
 */
 startBtn.addEventListener('click', () => {
+    timerStartedAt();
     clearInterval(interval);
     interval = setInterval(startTimer, 1000);
 });
@@ -29,9 +33,20 @@ resetBtn.addEventListener('click', () => {
     min = 0;
     sec = 0;
     timer.innerHTML = '00:00:00';
+    displayDate.innerHTML = ''
 });
 
-/* Handles all the time after the time has started
+// Here we get the current time, that is used to display when the timer was started
+function timerStartedAt() {
+    let date = new Date();
+    let offset = date.getTimezoneOffset();
+
+    console.log(date + ' ' + offset);
+    displayDate.innerHTML = 'Timer started: ' + date.getHours() + ':' + date.getMinutes();
+}
+
+/* 
+*  startTimer handles all the timer
 *  We begin with parsing the clock string values to integers
 *  The logic later handles the sec, min and hours like a digital clock
 */
