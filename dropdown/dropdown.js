@@ -43,7 +43,7 @@ function timerStartedAt() {
     const hr  = String(date.getHours()).padStart(2, "0");
     const min = String(date.getMinutes()).padStart(2, "0");
 
-    displayDate.innerHTML = 'Timer started: ' + hr + ':' + min;
+    displayDate.innerHTML = 'Timer started ' + hr + ':' + min;
 }
 
 /* 
