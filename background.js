@@ -1,9 +1,23 @@
-function notifyPopupPage(req, sender, sendRes) {
-    sendRes({response: "Response from background script"});
+// Run each function based on the data.action string gathered frm the clicked btns on the popup
+function popupMsgReceived(data) {
+    switch(data.action) {
+        case 'start':
+            handleStart();
+            break;
+        case 'stop':
+            handleStop();
+            break;
+        case 'reset':
+            handleReset();
+            break;
+    }
 }
 
-function popupMsgReceived(msg) {
-    console.log("Msg received", msg);
+// Function to send back data to the popup.js script
+function notifyPopupPage(req, sender, sendRes) {
+    sendRes({
+        response: "Response from background script"
+    });
 }
 
 browser.runtime.onMessage.addListener(notifyPopupPage);
@@ -13,32 +27,29 @@ browser.runtime.onMessage.addListener(popupMsgReceived);
 let hr  = 0;
 let min = 0;
 let sec = 0;
- 
-let interval;
 
-/* 
-*  Three even listeners for the three buttons
-*  The startBtn event will set an interval to run each 1000ms (1sec) and run the startTimer function
-*  timerStartedAt function will also run och the btn event
+/*
+ * The functions used in the earlier switch statement - 
+ * that handles the timer, Thanks Wesley Branton https://mzl.la/3IjjbON
 */
-startBtn.addEventListener('click', () => {
+function handleStart() {
     timerStartedAt();
-    clearInterval(interval);
-    interval = setInterval(startTimer, 1000);
-});
+    browser.alarms.onAlarm.addListener(timerStartedAt);
+    browser.alarms.create('timerStartedAt', {periodInMinutes: 1});
+}
 
-stopBtn.addEventListener('click', () => {
-    clearInterval(interval);
-});
+function handleStop() {
+    browser.alarms.clearAll();
+}
 
-resetBtn.addEventListener('click', () => {
-    clearInterval(interval);
+function handleReset() {
+    browser.alarms.clearAll();
     hr  = 0;
     min = 0;
     sec = 0;
     timer.innerHTML = '00:00:00';
     displayDate.innerHTML = ''
-});
+}
 
 // Here we get the current time, that is used to display when the timer was started
 function timerStartedAt() {
@@ -51,9 +62,9 @@ function timerStartedAt() {
 }
 
 /* 
-*  startTimer handles all the timer
-*  We begin with parsing the clock string values to integers
-*  The logic later handles the sec, min and hours like a digital clock
+ *  startTimer() handles the running timer logic
+ *  We begin with parsing the clock string values to integers
+ *  The logic later handles the sec, min and hours like a digital clock
 */
 function startTimer() {
     hr  = parseInt(hr);

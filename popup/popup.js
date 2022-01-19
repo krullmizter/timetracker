@@ -1,29 +1,30 @@
-// Variables from the HTML
-const timer     = document.getElementById('timer');
+// Elements from the HTML popup
 const displayDate = document.getElementById('displayDate');
+const timer     = document.getElementById('timer');
 const startBtn  = document.getElementById('start');
 const stopBtn   = document.getElementById('stop');
 const resetBtn  = document.getElementById('reset');
 
-console.log(startBtn);
-
 /*
- *  Handles the communication between the popup page and the background page.
- *  This lets you send data between the "frontend" page and the background logic managing
+ *  The functions below handles the communication between the popup and the background script
+ *  notifyBackgroundPage() sends the element that was clicked as an object to the background script
 */
 function handleRes(msg) {
-    console.log(`Message from the background script:  ${msg.response}`);
+    console.info(`From the background script:  ${msg.response}`);
 }
 
 function handleErr(err) {
     console.error(`Handle Error: ${err}`);
 }
 
-function notifyBackgroundPage() {
+function notifyBackgroundPage(element) {
     const sending = browser.runtime.sendMessage({
-        startBtn: startBtn.msg
+        action: element.id
     });
     sending.then(handleRes, handleErr);
 }
 
-startBtn.addEventListener('click', notifyBackgroundPage);
+// Here each popup btn press gets passed to the function that notifies the background script with the data
+startBtn.addEventListener('click', notifyBackgroundPage(startBtn));
+stopBtn.addEventListener('click', notifyBackgroundPage(stopBtn));
+resetBtn.addEventListener('click', notifyBackgroundPage(resetBtn));
