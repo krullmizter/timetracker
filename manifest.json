@@ -6,14 +6,18 @@
 
   "description": "A simple time tracker extension",
   "homepage_url": "https://github.com/krullmizter/timetracker",
-  "icons": {
-    "48": "icons/timeTracker-logo-48.png"
-  },
 
   "browser_action": {
-    "default_icon": "icons/timeTracker-logo-48.png",
     "default_title": "TimeTracker",
     "default_popup": "popup/popup.html"
-  }
+  },
+
+  "background": {
+    "scripts": ["background.js"]
+  },
+
+  "permissions": [
+    "activeTab"
+  ]
 
 }
