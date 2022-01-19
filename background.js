@@ -13,14 +13,14 @@ function popupMsgReceived(data) {
     }
 }
 
-// Function to send back data to the popup.js script
+/* Function to send back data to the popup.js script
 function notifyPopupPage(req, sender, sendRes) {
     sendRes({
         response: "Response from background script"
     });
-}
+}*/
 
-browser.runtime.onMessage.addListener(notifyPopupPage);
+//browser.runtime.onMessage.addListener(notifyPopupPage);
 browser.runtime.onMessage.addListener(popupMsgReceived);
 
 // Set the initial clock values
@@ -33,9 +33,11 @@ let sec = 0;
  * that handles the timer, Thanks Wesley Branton https://mzl.la/3IjjbON
 */
 function handleStart() {
-    timerStartedAt();
+    //timerStartedAt();
     browser.alarms.onAlarm.addListener(timerStartedAt);
-    browser.alarms.create('timerStartedAt', {periodInMinutes: 1});
+    browser.alarms.create('timerStartedAt', {
+        periodInMinutes: 1
+    });
 }
 
 function handleStop() {
