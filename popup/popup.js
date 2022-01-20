@@ -12,6 +12,7 @@ const resetBtn    = document.getElementById('reset');
 */
 startBtn.addEventListener('click', () => {
     console.log('Start btn pressed');
+
     const sending = browser.runtime.sendMessage({
         action: startBtn.id
     });
@@ -28,6 +29,7 @@ startBtn.addEventListener('click', () => {
 
 stopBtn.addEventListener('click', () => {
     console.info('Stop btn pressed');
+
     const sending = browser.runtime.sendMessage({
         action: stopBtn.id
     });
