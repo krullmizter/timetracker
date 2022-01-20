@@ -10,14 +10,6 @@
   "browser_action": {
     "default_title": "TimeTracker",
     "default_popup": "popup/popup.html"
-  },
-
-  "background": {
-    "scripts": ["background.js"]
-  },
-
-  "permissions": [
-    "alarms"
-  ]
+  }
 
 }
