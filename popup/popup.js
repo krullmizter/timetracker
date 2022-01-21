@@ -1,4 +1,4 @@
-//Elements from the HTML popup
+// Elements from the HTML popup
 const displayDate = document.getElementById('displayDate');
 const timer       = document.getElementById('timer');
 const startBtn    = document.getElementById('start');
@@ -9,9 +9,11 @@ let hr  = 0;
 let min = 0;
 let sec = 0;
 
+let storedTime;
 let interval;
 let timerAlreadyRunning = false;
 
+// Checks whether to start or stop the interval that runs the timer logic
 function intervalController(bool, todo, time) {
     if (bool) {
         interval = setInterval(todo, time);
@@ -22,6 +24,7 @@ function intervalController(bool, todo, time) {
     }
 }
 
+// Checks if the timer is running, if not, and on btn press, start the interval (handleTime logic) every 1sec
 if (!timerAlreadyRunning) {
     startBtn.addEventListener('click', () => {
         timerStartedAt();
@@ -29,6 +32,10 @@ if (!timerAlreadyRunning) {
     });
 }
 
+/* 
+ *  Main time logic, checks if the initially storedTime (when the user first starts the timer) is stored or not.
+ *  If it is found begin to calculate the difference between the current time and the stored time to find the seconds.
+*/ 
 function handleTime() {
     storedTime = localStorage.getItem('startTime');
     
@@ -66,6 +73,7 @@ function handleTime() {
     }
 }
 
+// The pause and reset btn events both stops the interval, the reset clears the UI and localStorage saved time
 pauseBtn.addEventListener('click', () => {
     intervalController(false);
 });
@@ -80,6 +88,7 @@ resetBtn.addEventListener('click', () => {
     displayDate.innerHTML = '';
 });
 
+// Find the time of when the functions is used, used in the start event.
 function timerStartedAt() {
     const date = new Date();
 
