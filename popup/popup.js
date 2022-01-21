@@ -1,32 +1,43 @@
-// Elements from the HTML popup
+//Elements from the HTML popup
 const displayDate = document.getElementById('displayDate');
 const timer       = document.getElementById('timer');
 const startBtn    = document.getElementById('start');
-const stopBtn     = document.getElementById('stop');
+const pauseBtn    = document.getElementById('pause');
 const resetBtn    = document.getElementById('reset');
 
 let hr  = 0;
 let min = 0;
 let sec = 0;
 
-startBtn.addEventListener('click', () => {
-    const date = new Date();
+let interval;
+let timerAlreadyRunning = false;
 
-    const hr  = String(date.getHours()).padStart(2, '0');
-    const min = String(date.getMinutes()).padStart(2, '0');
+function intervalController(bool, todo, time) {
+    if (bool) {
+        interval = setInterval(todo, time);
+        timerAlreadyRunning = bool;
+    } else {
+        clearInterval(interval);
+        timerAlreadyRunning = bool;
+    }
+}
 
-    displayDate.innerHTML = 'Timer started ' + hr + ':' + min;
-});
+if (!timerAlreadyRunning) {
+    startBtn.addEventListener('click', () => {
+        timerStartedAt();
+        intervalController(true, handleTime, 1000);
+    });
+}
 
 function handleTime() {
-    var storageTime = localStorage.getItem('startTime');
-
-    if (storageTime === null) {
+    storedTime = localStorage.getItem('startTime');
+    
+    if (storedTime === null)
         localStorage.setItem('startTime', Date.now());
-    } else {
+    else {
         hr  = parseInt(hr);
         min = parseInt(min);
-        sec = parseInt((Date.now() - storageTime) / 1000);
+        sec = parseInt((Date.now() - storedTime) / 1000);
 
         if (sec == 60) {
             min += 1;
@@ -49,16 +60,31 @@ function handleTime() {
             hr = '0' + hr;
         }
 
+        console.log(sec)
+
         timer.innerHTML = hr + ':' + min + ':' + sec;
     }
 }
 
-setInterval(handleTime, 1000);
+pauseBtn.addEventListener('click', () => {
+    intervalController(false);
+});
 
-//stopBtn.addEventListener('click', () => {});
 resetBtn.addEventListener('click', () => {
-    clearInterval(handleTime);
+    hr  = 0;
+    min = 0;
+    sec = 0;
+    intervalController(false);
     localStorage.removeItem('startTime');
     timer.innerHTML = '00:00:00';
     displayDate.innerHTML = '';
 });
+
+function timerStartedAt() {
+    const date = new Date();
+
+    const hr  = String(date.getHours()).padStart(2, '0');
+    const min = String(date.getMinutes()).padStart(2, '0');
+
+    displayDate.innerHTML = 'Timer started ' + hr + ':' + min;
+}
