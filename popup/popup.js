@@ -12,6 +12,19 @@ let sec = 0;
 let interval;
 let timerAlreadyRunning = false;
 
+/*  
+ *  Find the time of when the functions is used, used in the start event
+ *  Add leading zeros with padStart
+*/
+function timerStartedAt() {
+    const date = new Date();
+
+    const hr  = String(date.getHours()).padStart(2, '0');
+    const min = String(date.getMinutes()).padStart(2, '0');
+
+    displayDate.textContent = 'Timer started ' + hr + ':' + min;
+}
+
 // Checks whether to start or stop the interval that runs the timer logic
 function intervalController(bool, todo, time) {
     if (bool) {
@@ -24,12 +37,12 @@ function intervalController(bool, todo, time) {
 }
 
 // Checks if the timer is running, if not, and on btn press, start the interval (handleTime logic) every 1sec
-if (!timerAlreadyRunning) {
-    startBtn.addEventListener('click', () => {
+startBtn.addEventListener('click', () => {
+    if (!timerAlreadyRunning) {
         timerStartedAt();
         intervalController(true, handleTime, 1000);
-    });
-}
+    }
+});
 
 /* 
  *  Main time logic, checks if the initially storedTime (when the user first starts the timer) is stored or not
@@ -59,7 +72,9 @@ function handleTime() {
         min = parseInt(elapsedTime / (1000 * 60) % 60);
         sec = parseInt((elapsedTime / 1000) % 60);
 
-        timer.innerHTML = zeros(hr) + ':' + zeros(min) + ':' + zeros(sec);
+        console.log(sec);
+
+        timer.textContent = zeros(hr) + ':' + zeros(min) + ':' + zeros(sec);
     }
 }
 
@@ -74,18 +89,7 @@ resetBtn.addEventListener('click', () => {
     sec = 0;
     intervalController(false);
     localStorage.removeItem('startTime');
-    timer.innerHTML = '00:00:00';
-    displayDate.innerHTML = '';
+    timer.textContent = '00:00:00';
+    displayDate.textContent = '';
+    reset = true;
 });
-
-/*  Find the time of when the functions is used, used in the start event
- *  Add leading zeros with padStart
-*/
-function timerStartedAt() {
-    const date = new Date();
-
-    const hr  = String(date.getHours()).padStart(2, '0');
-    const min = String(date.getMinutes()).padStart(2, '0');
-
-    displayDate.innerHTML = 'Timer started ' + hr + ':' + min;
-}
