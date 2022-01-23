@@ -9,7 +9,6 @@ let hr  = 0;
 let min = 0;
 let sec = 0;
 
-let storedTime;
 let interval;
 let timerAlreadyRunning = false;
 
@@ -33,8 +32,8 @@ if (!timerAlreadyRunning) {
 }
 
 /* 
- *  Main time logic, checks if the initially storedTime (when the user first starts the timer) is stored or not.
- *  If it is found begin to calculate the difference between the current time and the stored time to find the seconds.
+ *  Main time logic, checks if the initially storedTime (when the user first starts the timer) is stored or not
+ *  If it is found begin to calculate the difference between the current time and the stored time to find the seconds
  *  The stored time gets stringified and later parsed when reading to always store each value as a number
  *  The parseInt just removed any decimal points.
 */
@@ -50,25 +49,15 @@ const zeros = (t) => {
 }
 
 function handleTime() {
-    storedTime = JSON.parse(localStorage.getItem('startTime'));
+    let storedTime = JSON.parse(localStorage.getItem('startTime'));
     
     if (storedTime === null)
         JSON.stringify(localStorage.setItem('startTime', Date.now()));
     else {
-        hr  = parseInt(hr);
-        min = parseInt(min);
-        sec = parseInt((Date.now() - storedTime) / 1000);
-
-        if (sec == 60) {
-            min += 1;
-            sec = 0;
-        } else if (min == 60) {
-            hr += 1;
-            min = 0;
-            sec = 0;
-        }
-
-        console.log(sec, typeof sec)
+        const elapsedTime = Date.now() - storedTime;
+        hr  = parseInt(elapsedTime / (1000 * 3600) % 60);
+        min = parseInt(elapsedTime / (1000 * 60) % 60);
+        sec = parseInt((elapsedTime / 1000) % 60);
 
         timer.innerHTML = zeros(hr) + ':' + zeros(min) + ':' + zeros(sec);
     }
@@ -89,7 +78,9 @@ resetBtn.addEventListener('click', () => {
     displayDate.innerHTML = '';
 });
 
-// Find the time of when the functions is used, used in the start event.
+/*  Find the time of when the functions is used, used in the start event
+ *  Add leading zeros with padStart
+*/
 function timerStartedAt() {
     const date = new Date();
 
