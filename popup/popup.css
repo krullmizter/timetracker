@@ -3,6 +3,11 @@ html {
   font-size: 62.5%;
 }
 
+body {
+  background-color: #373737;
+  color: #fff;
+}
+
 #popup-wrapper {
   display: flex;
   flex-direction: column;

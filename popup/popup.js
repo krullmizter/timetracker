@@ -35,12 +35,25 @@ if (!timerAlreadyRunning) {
 /* 
  *  Main time logic, checks if the initially storedTime (when the user first starts the timer) is stored or not.
  *  If it is found begin to calculate the difference between the current time and the stored time to find the seconds.
-*/ 
+ *  The stored time gets stringified and later parsed when reading to always store each value as a number
+ *  The parseInt just removed any decimal points.
+*/
+
+// This function adds leading zeros to all time values below 9
+const zeros = (t) => {
+    if (t < 10 && t >= 0) {
+        return '0' + t;   
+    }
+    else {
+        return t;
+    }
+}
+
 function handleTime() {
-    storedTime = localStorage.getItem('startTime');
+    storedTime = JSON.parse(localStorage.getItem('startTime'));
     
     if (storedTime === null)
-        localStorage.setItem('startTime', Date.now());
+        JSON.stringify(localStorage.setItem('startTime', Date.now()));
     else {
         hr  = parseInt(hr);
         min = parseInt(min);
@@ -54,22 +67,10 @@ function handleTime() {
             min = 0;
             sec = 0;
         }
-    
-        if (sec < 10) {
-            sec = '0' + sec;
-        } 
-        
-        if (min < 10) {
-            min = '0' + min;
-        } 
-        
-        if (hr < 10) {
-            hr = '0' + hr;
-        }
 
-        console.log(sec)
+        console.log(sec, typeof sec)
 
-        timer.innerHTML = hr + ':' + min + ':' + sec;
+        timer.innerHTML = zeros(hr) + ':' + zeros(min) + ':' + zeros(sec);
     }
 }
 
